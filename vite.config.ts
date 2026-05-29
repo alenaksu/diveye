@@ -11,7 +11,7 @@ export default defineConfig({
         outDir: 'docs',
         target: 'esnext',
         sourcemap: true,
-        modulePreload: { polyfill: false }
+        modulePreload: { polyfill: false },
     },
 
     // ORT uses dynamic imports internally — don't pre-bundle it
@@ -22,9 +22,7 @@ export default defineConfig({
     // ES module workers (required for comlink + ORT in worker)
     worker: {
         format: 'es',
-        rollupOptions: {
-            external: ['onnxruntime-web', 'onnxruntime-web/all']
-        }
+        plugins: () => []
     },
 
     server: {

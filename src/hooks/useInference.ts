@@ -28,7 +28,10 @@ export function useInference(preferredEP: ExecutionProvider) {
             try {
                 await purgeOldCaches();
 
-                const worker = new Worker('../workers/inference.worker.js', { type: 'module' });
+                const worker = new Worker(
+                    new URL('../workers/inference.worker.js', import.meta.url),
+                    { type: 'module' }
+                );
                 workerRef.current = worker;
 
                 const api = Comlink.wrap<InferenceWorker>(worker);
