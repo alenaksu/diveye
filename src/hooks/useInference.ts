@@ -4,7 +4,7 @@ import { type ExecutionProvider } from '../lib/backend-detect'
 import { purgeOldCaches } from '../lib/model-cache'
 import type { InferenceWorker, LoadProgress, DehazeOptions } from '../workers/inference.worker'
 
-const MODEL_URL = '/models/lu2net.onnx'
+const MODEL_URL = `${import.meta.env.BASE_URL}models/lu2net.onnx`
 
 export type InferenceStatus =
   | { phase: 'idle' }
