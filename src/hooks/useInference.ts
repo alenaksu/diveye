@@ -3,7 +3,6 @@ import * as Comlink from 'comlink';
 import { type ExecutionProvider } from '../lib/backend-detect';
 import { purgeOldCaches } from '../lib/model-cache';
 import type { InferenceWorker, LoadProgress, DehazeOptions } from '../workers/inference.worker';
-import workerUrl from '../workers/inference.worker.js?url';
 
 const MODEL_URL = `${import.meta.env.BASE_URL}models/lu2net.onnx`;
 
@@ -29,7 +28,7 @@ export function useInference(preferredEP: ExecutionProvider) {
             try {
                 await purgeOldCaches();
 
-                const worker = new Worker(workerUrl, { type: 'module' });
+                const worker = new Worker('../workers/inference.worker.js', { type: 'module' });
                 workerRef.current = worker;
 
                 const api = Comlink.wrap<InferenceWorker>(worker);
