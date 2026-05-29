@@ -10,17 +10,7 @@ export default defineConfig({
     build: {
         outDir: 'docs',
         sourcemap: true,
-        target: 'es2023',
-        modulePreload: { polyfill: false },
-        rollupOptions: {
-            output: {
-                esModule: true,
-                cleanDir: true,
-                format: 'es',
-                entryFileNames: 'assets/[name].[hash].js',
-                chunkFileNames: 'assets/[name].[hash].js'
-            }
-        }
+        target: 'es2023'
     },
 
     // ORT uses dynamic imports internally — don't pre-bundle it
