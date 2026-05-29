@@ -5,6 +5,10 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
 
+  build: {
+    outDir: 'docs',
+  },
+
   // ORT uses dynamic imports internally — don't pre-bundle it
   optimizeDeps: {
     exclude: ['onnxruntime-web'],
