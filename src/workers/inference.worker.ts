@@ -19,8 +19,9 @@ import { dehaze as dehazeImpl } from '../lib/dehaze'
 import type { DehazeOptions } from '../lib/dehaze/types'
 import type { ExecutionProvider } from '../lib/backend-detect'
 
-// Point ORT to its WASM binaries (served from /public via Vite)
-// ort.env.wasm.wasmPaths = '/onnxruntime-web/'
+// Point ORT to its WASM binaries.
+// Must use BASE_URL so the path is correct both in dev (/) and on GitHub Pages (/aquatune/).
+ort.env.wasm.wasmPaths = `${import.meta.env.BASE_URL}onnxruntime-web/`
 
 let session: ort.InferenceSession | null = null
 let activeEP: ExecutionProvider = 'wasm'
