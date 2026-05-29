@@ -7,3 +7,5 @@ scripts/.venv/
 scripts/LightUNet_170.pth
 scripts/__pycache__/
 scripts/*.pyc
+scripts/train-dataset/
+scripts/runs/

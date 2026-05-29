@@ -1,0 +1,43 @@
+# LU2Net training requirements
+# Tested with Python 3.9, CUDA 12.1
+#
+# Install:
+#   cd scripts
+#   python -m venv .venv
+#   source .venv/bin/activate
+#   pip install -r requirements.txt
+#
+# CPU-only (slower training, fine for testing):
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+#   pip install -r requirements.txt --no-deps
+#   pip install matplotlib numpy opencv-python pillow scikit-image scipy tensorboard tensorboardX thop timm onnx onnxruntime
+
+# Deep learning
+torch==2.3.1
+torchvision==0.18.1
+
+# ONNX export & validation
+onnx>=1.16.0
+onnxruntime>=1.18.0
+
+# Image processing
+Pillow>=10.2.0
+opencv-python>=4.9.0.80
+scikit-image>=0.24.0
+
+# Numerics / utilities
+numpy>=1.26.4
+scipy>=1.13.1
+
+# Training monitoring
+tensorboard>=2.17.0
+tensorboardX>=2.6.2.2
+
+# Optional profiling
+thop>=0.1.1
+
+# Vision model zoo (VGG perceptual loss)
+timm>=1.0.7
+
+# Plotting (utility/plots.py)
+matplotlib>=3.9.0
