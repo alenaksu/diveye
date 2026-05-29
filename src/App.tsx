@@ -339,21 +339,15 @@ export default function App() {
 
               <div className={`space-y-4 pl-1 transition-opacity ${dehazeEnabled && hasResult && !isBusy ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
                 {/* Method selector */}
-                <div className="space-y-2">
+                <select
+                  value={dehazeMethod}
+                  onChange={(e) => setDehazeMethod(e.target.value as DehazeMethod)}
+                  className="w-full rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-xs text-white/70 focus:outline-none focus:ring-1 focus:ring-ocean-400"
+                >
                   {(['dcp', 'clahe'] as DehazeMethod[]).map((m) => (
-                    <label key={m} className="flex items-center gap-2 cursor-pointer select-none">
-                      <input
-                        type="radio"
-                        name="dehaze-method"
-                        value={m}
-                        checked={dehazeMethod === m}
-                        onChange={() => setDehazeMethod(m)}
-                        className="accent-ocean-400"
-                      />
-                      <span className="text-xs text-white/60">{m.toUpperCase()}</span>
-                    </label>
+                    <option key={m} value={m} className="bg-slate-900">{m.toUpperCase()}</option>
                   ))}
-                </div>
+                </select>
 
                 {/* DCP options */}
                 {dehazeMethod === 'dcp' && (
@@ -374,19 +368,23 @@ export default function App() {
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs text-white/40">Patch size</span>
-                        <span className="text-xs text-white/60 tabular-nums">{dcpOpts.patchSize} px</span>
+                      <span className="text-xs text-white/40">Patch size</span>
+                      <div className="flex items-center gap-1 rounded-full border border-white/10 bg-white/5 p-0.5 mt-1">
+                        {([3, 5, 7, 15, 30] as number[]).map((p) => (
+                          <button
+                            key={p}
+                            onClick={() => setDcpOpts((o) => ({ ...o, patchSize: p }))}
+                            className={[
+                              'flex-1 rounded-full py-0.5 text-xs font-medium transition-all',
+                              dcpOpts.patchSize === p
+                                ? 'bg-white/15 text-white'
+                                : 'text-white/40 hover:text-white/70',
+                            ].join(' ')}
+                          >
+                            {p}
+                          </button>
+                        ))}
                       </div>
-                      <input
-                        type="range"
-                        min={5}
-                        max={31}
-                        step={2}
-                        value={dcpOpts.patchSize}
-                        onChange={(e) => setDcpOpts((o) => ({ ...o, patchSize: Number(e.target.value) }))}
-                        className="w-full accent-ocean-400"
-                      />
                     </div>
                   </div>
                 )}
@@ -643,21 +641,16 @@ export default function App() {
                 </label>
 
                 <div className={`space-y-5 transition-opacity ${dehazeEnabled && hasResult && !isBusy ? 'opacity-100' : 'opacity-30 pointer-events-none'}`}>
-                  {/* Method selector — pills */}
-                  <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 p-0.5">
+                  {/* Method selector — select */}
+                  <select
+                    value={dehazeMethod}
+                    onChange={(e) => setDehazeMethod(e.target.value as DehazeMethod)}
+                    className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white/70 focus:outline-none focus:ring-1 focus:ring-ocean-400"
+                  >
                     {(['dcp', 'clahe'] as DehazeMethod[]).map((m) => (
-                      <button
-                        key={m}
-                        onClick={() => setDehazeMethod(m)}
-                        className={[
-                          'flex-1 rounded-full py-1.5 text-sm font-medium transition-all',
-                          dehazeMethod === m ? 'bg-white/15 text-white' : 'text-white/40 hover:text-white/70',
-                        ].join(' ')}
-                      >
-                        {m.toUpperCase()}
-                      </button>
+                      <option key={m} value={m} className="bg-slate-900">{m.toUpperCase()}</option>
                     ))}
-                  </div>
+                  </select>
 
                   {/* DCP options */}
                   {dehazeMethod === 'dcp' && (
@@ -676,17 +669,21 @@ export default function App() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm text-white/50">Patch size</span>
-                          <span className="text-sm text-white/70 tabular-nums">{dcpOpts.patchSize} px</span>
+                        <span className="text-sm text-white/50">Patch size</span>
+                        <div className="flex items-center gap-1 rounded-full border border-white/10 bg-white/5 p-0.5 mt-1">
+                          {([3, 5, 7, 15, 30] as number[]).map((p) => (
+                            <button
+                              key={p}
+                              onClick={() => setDcpOpts((o) => ({ ...o, patchSize: p }))}
+                              className={[
+                                'flex-1 rounded-full py-1 text-sm font-medium transition-all',
+                                dcpOpts.patchSize === p ? 'bg-white/15 text-white' : 'text-white/40 hover:text-white/70',
+                              ].join(' ')}
+                            >
+                              {p}
+                            </button>
+                          ))}
                         </div>
-                        <input
-                          type="range"
-                          min={5} max={31} step={2}
-                          value={dcpOpts.patchSize}
-                          onChange={(e) => setDcpOpts((o) => ({ ...o, patchSize: Number(e.target.value) }))}
-                          className="w-full accent-ocean-400 h-1.5"
-                        />
                       </div>
                     </div>
                   )}

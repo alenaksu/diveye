@@ -32,14 +32,28 @@ export function BeforeAfter({ before, after, width, height }: Props) {
   const displayW = Math.max(1, Math.round(width  * scale))
   const displayH = Math.max(1, Math.round(height * scale))
 
+  // Physical pixel multiplier for HiDPI / Retina screens
+  const dpr = typeof window !== 'undefined' ? (window.devicePixelRatio || 1) : 1
+
   const draw = useCallback(() => {
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')!
-    const w = canvas.width
-    const h = canvas.height
+
+    // Work in logical (CSS) pixels; dpr scaling is applied via ctx.scale
+    const w = displayW
+    const h = displayH
     const splitX = Math.round(sliderX * w)
 
+    // Reset transform before clearing so we always wipe the full physical buffer
+    ctx.setTransform(1, 0, 0, 1, 0, 0)
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    // Scale all drawing to physical pixels for crisp HiDPI output
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+
+    ctx.imageSmoothingEnabled = true
+    ctx.imageSmoothingQuality = 'high'
     ctx.drawImage(before, 0, 0, w, h)
     ctx.save()
     ctx.beginPath()
@@ -91,7 +105,7 @@ export function BeforeAfter({ before, after, width, height }: Props) {
       ctx.textAlign = 'right'
       ctx.fillText('AFTER', w - 10, 10)
     }
-  }, [before, after, sliderX, displayW, displayH])
+  }, [before, after, sliderX, displayW, displayH, dpr])
 
   useEffect(() => {
     draw()
@@ -130,8 +144,9 @@ export function BeforeAfter({ before, after, width, height }: Props) {
     <div ref={containerRef} className="w-full h-full flex items-center justify-center">
       <canvas
         ref={canvasRef}
-        width={displayW}
-        height={displayH}
+        width={displayW * dpr}
+        height={displayH * dpr}
+        style={{ width: displayW, height: displayH }}
         className="rounded-2xl shadow-2xl cursor-col-resize touch-none select-none max-w-full max-h-full"
         onMouseDown={onPointerDown}
         onTouchStart={onPointerDown}
